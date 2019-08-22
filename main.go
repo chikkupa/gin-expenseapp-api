@@ -1,8 +1,9 @@
 package main
 
 import (
+	"gin-expenseapp-api/controller"
+
 	"github.com/gin-gonic/gin"
-	"gin-expenseapp/controller"
 )
 
 func main() {
@@ -10,6 +11,6 @@ func main() {
 
 	router.GET("/", controller.HomePage)
 	router.POST("/credit", controller.Credit)
-	
+
 	router.Run(":8080")
 }
