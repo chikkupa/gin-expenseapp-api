@@ -12,3 +12,6 @@ var Mysql = "mysql"
 
 var Dbconnection = Db_user + ":" + Db_password + "@tcp(127.0.0.1:3306)/" + Db_name
 var BaseUrl = Host + ":" + Port
+
+// Authentication Key
+var Auth_secret = "expense@golang"

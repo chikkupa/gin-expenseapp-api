@@ -3,20 +3,17 @@ package controller
 import (
 	"time"
 	"net/http"
-	"github.com/gin-gonic/gin"
+	
+	"gin-expenseapp-api/config"
 	"gin-expenseapp-api/model"
+	"gin-expenseapp-api/library"
+
+	"github.com/gin-gonic/gin"
 	"github.com/dgrijalva/jwt-go"
 )
 
 // Create the JWT key used to create the signature
-var jwtKey = []byte("my_secret_key")
-
-// Claims Create a struct that will be encoded to a JWT.
-// We add jwt.StandardClaims as an embedded type, to provide fields like expiry time
-type Claims struct {
-	Username string `json:"username"`
-	jwt.StandardClaims
-}
+var jwtKey = []byte(config.Auth_secret)
 
 // LoginRequest Structure of the API request parameters
 type LoginRequest struct {
@@ -48,10 +45,18 @@ func Login(c *gin.Context) {
 		return
 	}
 	
+	user, err := model.GetUserDetails(request.Username);
+
+	if err != nil{
+		c.JSON(500, model.Response(model.InternalServerError, err.Error(), nil))
+		return
+	}
+
 	expirationTime := time.Now().Add(5 * time.Minute)
 	// Create the JWT claims, which includes the username and expiry time
-	claims := &Claims{
+	claims := &library.Claims{
 		Username: request.Username,
+		UserID: user.UserID,
 		StandardClaims: jwt.StandardClaims{
 			// In JWT, the expiry time is expressed as unix milliseconds
 			ExpiresAt: expirationTime.Unix(),

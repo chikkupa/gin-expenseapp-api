@@ -1,7 +1,9 @@
 package controller
 
 import (
+	"gin-expenseapp-api/config"
 	"gin-expenseapp-api/model"
+	"gin-expenseapp-api/library"
 
 	"github.com/gin-gonic/gin"
 )
@@ -18,8 +20,12 @@ type TransactionRequest struct {
 func Credit(c *gin.Context) {
 	var request TransactionRequest
 	c.BindJSON(&request)
+	cookie, _ := c.Request.Cookie("token")
+	token := cookie.Value
 
-	response := model.AddTransaction(request.Description, 0, request.Amount, 0)
+	claims := library.GetClaims(token, config.Auth_secret)
+
+	response := model.AddTransaction(claims.UserID, request.Description, request.Amount, 0, 0)
 
 	c.JSON(200, response)
 }
