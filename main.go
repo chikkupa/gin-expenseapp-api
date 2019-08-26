@@ -12,6 +12,7 @@ func main() {
 	router := gin.Default()
 
 	router.GET("/", controller.HomePage)
+	router.POST("/login", controller.Login)
 
 	authorized := router.Group("/")
 	
@@ -22,6 +23,8 @@ func main() {
 		transaction.POST("/credit", controller.Credit)
 
 	}
+
+	router.NoRoute(controller.NotFound)
 
 	router.Run(":8080")
 }

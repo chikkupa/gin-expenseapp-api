@@ -5,18 +5,22 @@ import (
 )
 
 const (
-	//Success Status: Success
+	// Success Status: Success
 	Success = 0 
-	//Failed Status: Failed
+	// Failed Status: Failed
 	Failed = 1
-	//NotFound Status: Not Found
+	// NotFound Status: Not Found
 	NotFound = 2
-	//Unauthorised Staus: Unauthorised
+	// Unauthorised Staus: Unauthorised
 	Unauthorised = 3
-	//DatabaseConnectionError Status: Database connection error
+	// DatabaseConnectionError Status: Database connection error
 	DatabaseConnectionError = 4
-	//DatabaseError Status: Database error
+	// DatabaseError Status: Database error
 	DatabaseError = 5
+	// InternalServerError Status: Internal server error
+	InternalServerError = 6
+	// BadRequestError Status: Bad Request error
+	BadRequestError = 7
 )
 
 var responseCodes = []struct {
@@ -29,11 +33,9 @@ var responseCodes = []struct {
 	{ Status: 401, Result: "UnAuthorised"},
 	{ Status: 200, Result: "DatabaseConnectionError"},
 	{ Status: 200, Result: "DatabaseError"},
+	{ Status: 500, Result: "InternalServerError"},
+	{ Status: 400, Result: "BadRequestError"},
 }
-//Status List of response status
-var Status = []int{200, 200, 404, 401, 200, 200}
-//Results List of response results
-var Results = []string{"Success", "Failed", "NotFound", "UnAuthorised", "DatabaseConnectionError", "DatabaseError"}
 
 //Response Format of the response
 func Response(result int, message string, data interface{}) gin.H {
