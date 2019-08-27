@@ -24,7 +24,7 @@ func Authenticate() gin.HandlerFunc {
 		
 		if err != nil {
 			if err == http.ErrNoCookie {
-				c.AbortWithStatusJSON(400, model.Response(model.BadRequestError, "No token found", nil))
+				c.AbortWithStatusJSON(401, model.Response(model.Unauthorised, "Unauthorised. No token found", nil))
 				return
 			}
 		}

@@ -8,7 +8,7 @@ import (
 )
 
 // AddTransaction Add a new transaction
-func AddTransaction(userID int, description string, credit float64, debit float64, balance float64) gin.H {
+func AddTransaction(userID int, date string, description string, credit float64, debit float64, balance float64) gin.H {
 	db, err := sql.Open(config.Mysql, config.Dbconnection)
 
 	if err != nil {
@@ -28,8 +28,8 @@ func AddTransaction(userID int, description string, credit float64, debit float6
 	userBalance -= debit
 
 	UpdateBalance(userID, userBalance)
-	
-	_, err = db.Query("INSERT INTO transaction (user_id, description, debit, credit, balance) VALUES (?, ?, ?, ?, ?)", userID, description, debit, credit, userBalance)
+
+	_, err = db.Query("INSERT INTO transaction (user_id, date, description, debit, credit, balance) VALUES (?, ?, ?, ?, ?, ?)", userID, date, description, debit, credit, userBalance)
 
 	if err != nil {
 		return Response(DatabaseError, err.Error(), nil)
